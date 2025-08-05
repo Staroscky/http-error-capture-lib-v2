@@ -1,0 +1,8 @@
+http-error-capture:
+  enabled: true
+  sqs:
+    queue-url: "https://sqs.us-east-1.amazonaws.com/123456789012/errors"
+    region: "us-east-1"
+  capture:
+    status-codes: [400, 401, 403, 404, 500, 502, 503, 504]
+    exclude-paths: ["/health", "/actuator"]

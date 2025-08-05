@@ -1,0 +1,42 @@
+# Configuração de exemplo para a biblioteca
+http-error-capture:
+  enabled: true
+
+  # Configurações assíncronas
+  async:
+    core-pool-size: 2
+    max-pool-size: 10
+    queue-capacity: 100
+    thread-name-prefix: "http-error-"
+
+  # Configurações do SQS
+  sqs:
+    queue-url: "https://sqs.us-east-1.amazonaws.com/123456789012/http-errors-queue"
+    region: "us-east-1"
+    batch-size: 10
+    visibility-timeout-seconds: 30
+    message-retention-period: 1209600 # 14 days
+    enabled: true
+
+  # Configurações de captura
+  capture:
+    status-codes: [400, 401, 403, 404, 500, 502, 503, 504]
+    include-request-body: true
+    include-response-body: true
+    include-headers: true
+    max-body-size: 10240 # 10KB
+    exclude-paths:
+      - "/health"
+      - "/actuator"
+      - "/metrics"
+      - "/favicon.ico"
+
+# Configurações do Spring Boot
+spring:
+  application:
+    name: "my-application"
+# Configurações do AWS (opcional, pode usar variáveis de ambiente)
+# aws:
+#   access-key-id: ${AWS_ACCESS_KEY_ID}
+#   secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+#   region: ${AWS_REGION:us-east-1}
